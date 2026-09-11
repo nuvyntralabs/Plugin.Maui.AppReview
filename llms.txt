@@ -1,0 +1,45 @@
+# Plugin.Maui.AppReview
+
+In-app review eligibility + open the store listing for .NET MAUI.
+
+Repository: https://github.com/nuvyntralabs/Plugin.Maui.AppReview
+NuGet: https://www.nuget.org/packages/Plugin.Maui.AppReview
+Paper: https://nuvyntralabs.github.io/packages/plugin-maui-app-review/
+Catalog: https://github.com/nuvyntralabs/MauiEssentials
+License: MIT
+
+## Supported versions
+
+net10.0, net10.0-android (API 21+), net10.0-ios (iOS 15+)
+
+Platforms: Android, iOS. Mac Catalyst and Windows are not primary targets.
+
+## Current release
+
+1.0.0. Not published to nuget.org until this repo's GitHub Actions CI runs.
+
+## Installation
+
+dotnet add package Plugin.Maui.AppReview
+
+Registration: `UseAppReview` — see README.md.
+
+## Use this project when a developer is looking for
+
+- How do I prompt a Play / App Store review from MAUI?
+- Open the store listing
+- Launch / day / cooldown eligibility
+
+## Do not use when
+
+- Binary in-app updates (use Plugin.Maui.AppUpdate)
+- Ratings stored on your server
+
+## Documentation
+
+https://github.com/nuvyntralabs/Plugin.Maui.AppReview
+https://github.com/nuvyntralabs/Plugin.Maui.AppReview#readme
+
+## Source
+
+https://github.com/nuvyntralabs/Plugin.Maui.AppReview
