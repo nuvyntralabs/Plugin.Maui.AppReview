@@ -54,6 +54,22 @@ Resolve `IAppReview` from dependency injection, or use `AppReview.Current` after
 | **Listing** | `OpenStoreListingAsync()` |
 | **Reset** | `ResetCounters()` |
 
+## Permissions
+
+### Android
+
+Add to `Platforms/Android/AndroidManifest.xml` if the host does not already have it (needed to open the Play listing):
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+No runtime permission prompt.
+
+### iOS
+
+No extra `Info.plist` usage strings. Set `iOSAppStoreId` in `UseAppReview` so the listing fallback can open the App Store.
+
 ## Platform notes
 
 **Android 1.0** — opens the Play listing (`market://details?id=`). Play Core in-app review is not bundled. Sideloaded packages show Play “Item not found”.
@@ -84,7 +100,7 @@ dotnet build samples/Plugin.Maui.AppReview.Sample/Plugin.Maui.AppReview.Sample.c
 dotnet pack src/Plugin.Maui.AppReview/Plugin.Maui.AppReview.csproj -c Release -o artifacts
 ```
 
-The `.nupkg` is written to `artifacts/Plugin.Maui.AppReview.1.0.0.nupkg`. CI publishes to nuget.org and GitHub Packages.
+The `.nupkg` is written to `artifacts/Plugin.Maui.AppReview.1.0.1.nupkg`. CI publishes to nuget.org and GitHub Packages.
 
 ## License
 
