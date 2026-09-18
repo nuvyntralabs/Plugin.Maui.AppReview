@@ -17,7 +17,7 @@
     <AssemblyName>Plugin.Maui.AppReview</AssemblyName>
     <PackageId>Plugin.Maui.AppReview</PackageId>
     <Title>.NET MAUI AppReview</Title>
-    <Description>Play In-App Review and SKStoreReviewController with local eligibility.</Description>
+    <Description>iOS SKStoreReviewController and open-listing fallback; Android 1.0 opens the Play listing (no Play Core ReviewManager).</Description>
     <Authors>Niladri</Authors>
     <Company>MauiEssentials</Company>
     <Copyright>Copyright © 2026 Niladri</Copyright>
@@ -31,7 +31,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <IsPackable>true</IsPackable>
     <PackageOutputPath>$(MSBuildThisFileDirectory)..\..\artifacts</PackageOutputPath>
   </PropertyGroup>

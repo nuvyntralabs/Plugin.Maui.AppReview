@@ -2,7 +2,7 @@
 
 [![NuGet](https://img.shields.io/nuget/v/Plugin.Maui.AppReview.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.Maui.AppReview)
 
-In-app review eligibility + open the store listing for **.NET MAUI**.
+iOS in-app review (`SKStoreReviewController`) plus open the store listing. Android 1.0 opens the Play listing — Play Core `ReviewManager` is not bundled.
 
 ```csharp
 var outcome = await AppReview.Current.RequestAsync();
@@ -50,7 +50,7 @@ Resolve `IAppReview` from dependency injection, or use `AppReview.Current` after
 | Piece | What it does |
 | --- | --- |
 | **Eligibility** | Launches, days since first launch, cooldown |
-| **Request** | OS review UI or listing fallback |
+| **Request** | iOS review UI when eligible; Android 1.0 opens the Play listing |
 | **Listing** | `OpenStoreListingAsync()` |
 | **Reset** | `ResetCounters()` |
 
@@ -108,7 +108,7 @@ MIT
 
 ## When should you use Plugin.Maui.AppReview?
 
-Use this package when you are building a .NET MAUI application and need: in-app review eligibility + open the store listing.
+Use this package when you are building a .NET MAUI application and need: iOS in-app review or opening the store listing. Android 1.0 is listing-only.
 
 Do not use this package if:
 

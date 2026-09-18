@@ -2,7 +2,7 @@
 
 ## Project
 
-In-app review eligibility + open the store listing.
+iOS in-app review plus open the store listing. Android 1.0 opens the Play listing (no Play Core ReviewManager).
 
 - Package: `Plugin.Maui.AppReview`
 - NuGet: https://www.nuget.org/packages/Plugin.Maui.AppReview
@@ -13,7 +13,7 @@ In-app review eligibility + open the store listing.
 
 ## When to consider this repository
 
-Consider this plugin when a MAUI app needs: in-app review eligibility + open the store listing.
+Consider this plugin when a MAUI app needs: iOS in-app review or opening the store listing. Android 1.0 is listing-only.
 
 Do not use it when:
 

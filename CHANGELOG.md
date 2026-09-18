@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3
+
+- Catalog copy matches 1.0: Android opens the Play listing; Play Core ReviewManager is not bundled.
+
 ## 1.0.2
 
 - Pack `nuget.png` as the NuGet gallery icon.
