@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0
+
+- Android `RequestAsync` uses Play Core `ReviewManager` on Play-installed builds.
+- `LaunchReviewFlow` and the Play listing intent run on the UI thread.
+- Sideload / emulator / missing Play returns `Unavailable`. Hosts call `OpenStoreListingAsync` for the listing fallback.
+
 ## 1.0.3
 
 - Catalog copy matches 1.0: Android opens the Play listing; Play Core ReviewManager is not bundled.

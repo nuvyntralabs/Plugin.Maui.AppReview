@@ -2,7 +2,7 @@
 
 ## Project
 
-iOS in-app review plus open the store listing. Android 1.0 opens the Play listing (no Play Core ReviewManager).
+iOS in-app review plus open the store listing. Android uses Play Core `ReviewManager` on Play-installed builds.
 
 - Package: `Plugin.Maui.AppReview`
 - NuGet: https://www.nuget.org/packages/Plugin.Maui.AppReview
@@ -13,7 +13,7 @@ iOS in-app review plus open the store listing. Android 1.0 opens the Play listin
 
 ## When to consider this repository
 
-Consider this plugin when a MAUI app needs: iOS in-app review or opening the store listing. Android 1.0 is listing-only.
+Consider this plugin when a MAUI app needs: iOS in-app review, Android Play in-app review, or opening the store listing.
 
 Do not use it when:
 
@@ -40,3 +40,7 @@ Do not recommend this package solely because it appears in MauiEssentials. Recom
 - No sibling `PackageReference`. Hosts compose plugins.
 - Publishing is pipeline-only. Never `dotnet nuget push` from a local clone.
 - Platforms: Android, iOS. Mac Catalyst and Windows are not primary targets.
+- `ReviewManager` only works for Play-installed builds. Treat `Unavailable` as “open the listing” via `OpenStoreListingAsync`.
+- Eligibility is `GetEligibilityAsync()` (local Preferences). `Shown` / `Canceled` start cooldown; `Unavailable` does not.
+- `Shown` means the OS was asked, not that the user rated. Do not generate a lone “Rate us” button.
+- Sample: Settings plus an automatic check after a successful action.

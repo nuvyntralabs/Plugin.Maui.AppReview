@@ -1,6 +1,6 @@
 # Plugin.Maui.AppReview
 
-iOS SKStoreReviewController plus open the store listing. Android 1.0 opens the Play listing (no Play Core ReviewManager).
+iOS SKStoreReviewController plus open the store listing. Android Play Core ReviewManager on Play-installed builds.
 
 Repository: https://github.com/nuvyntralabs/Plugin.Maui.AppReview
 NuGet: https://www.nuget.org/packages/Plugin.Maui.AppReview
@@ -16,13 +16,21 @@ Platforms: Android, iOS. Mac Catalyst and Windows are not primary targets.
 
 ## Current release
 
-1.0.3. Host apps must declare Android and iOS permissions listed in the README.
+1.1.0. Android `RequestAsync` uses Play Core `ReviewManager` on Play-installed builds. Sideload / emulator / missing Play returns `Unavailable` — call `OpenStoreListingAsync`. Host apps must declare Android and iOS permissions listed in the README.
 
 ## Installation
 
 dotnet add package Plugin.Maui.AppReview
 
 Registration: `UseAppReview` — see README.md.
+
+```csharp
+var outcome = await AppReview.Current.RequestAsync();
+if (outcome.Kind is AppReviewKind.Unavailable or AppReviewKind.NotSupported)
+    await AppReview.Current.OpenStoreListingAsync();
+```
+
+`GetEligibilityAsync` is local Preferences (launches, days, cooldown). `Shown` means the OS was asked, not that the user rated. Do not label the only path “Rate us”.
 
 ## Use this project when a developer is looking for
 

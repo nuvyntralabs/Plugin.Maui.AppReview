@@ -2,10 +2,12 @@
 
 [![NuGet](https://img.shields.io/nuget/v/Plugin.Maui.AppReview.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.Maui.AppReview)
 
-iOS in-app review (`SKStoreReviewController`) plus open the store listing. Android 1.0 opens the Play listing — Play Core `ReviewManager` is not bundled.
+iOS in-app review (`SKStoreReviewController`) plus open the store listing. Android uses Play Core `ReviewManager` on Play-installed builds. Sideload / emulator / missing Play returns `Unavailable` — the host can call `OpenStoreListingAsync()`.
 
 ```csharp
 var outcome = await AppReview.Current.RequestAsync();
+if (outcome.Kind is AppReviewKind.Unavailable or AppReviewKind.NotSupported)
+    await AppReview.Current.OpenStoreListingAsync();
 ```
 
 ## Install
@@ -49,10 +51,12 @@ Resolve `IAppReview` from dependency injection, or use `AppReview.Current` after
 
 | Piece | What it does |
 | --- | --- |
-| **Eligibility** | Launches, days since first launch, cooldown |
-| **Request** | iOS review UI when eligible; Android 1.0 opens the Play listing |
-| **Listing** | `OpenStoreListingAsync()` |
+| **Eligibility** | `GetEligibilityAsync()` — launches, days since first launch, cooldown (local Preferences) |
+| **Request** | iOS `SKStoreReviewController`; Android Play Core `ReviewManager` when Play can serve a flow. `Shown` / `Canceled` start cooldown; `Unavailable` does not |
+| **Listing** | `OpenStoreListingAsync()` (`market://` then the Play HTTPS URL; iOS needs `iOSAppStoreId`) |
 | **Reset** | `ResetCounters()` |
+
+Do not call `RequestAsync` from a button labeled only “Rate us”. Apple and Google reject incentive patterns. The sample uses a Settings section plus an automatic check after a successful action. `Shown` means the OS was asked, not that the user rated.
 
 ## Permissions
 
@@ -64,7 +68,7 @@ Add to `Platforms/Android/AndroidManifest.xml` if the host does not already have
 <uses-permission android:name="android.permission.INTERNET" />
 ```
 
-No runtime permission prompt.
+No runtime permission prompt. `ReviewManager` only works for Play-installed builds (same honesty as AppUpdate).
 
 ### iOS
 
@@ -72,7 +76,7 @@ No extra `Info.plist` usage strings. Set `iOSAppStoreId` in `UseAppReview` so th
 
 ## Platform notes
 
-**Android 1.0** — opens the Play listing (`market://details?id=`). Play Core in-app review is not bundled. Sideloaded packages show Play “Item not found”.
+**Android** — `ReviewManager.RequestReviewFlow` + `LaunchReviewFlow`. Sideloaded packages, emulators without Play, or a quota no-op return `Unavailable`. `OpenStoreListingAsync` still opens `market://details?id=`.
 
 **iOS** — `SKStoreReviewController` when eligible; listing uses `iOSAppStoreId`.
 
@@ -85,7 +89,12 @@ Eligibility is local Preferences. `Shown` means the OS was asked, not that the u
 
 ## Sample
 
-`samples/Plugin.Maui.AppReview.Sample` covers the public API.
+`samples/Plugin.Maui.AppReview.Sample` covers the public API:
+
+- **Complete a task** — `GetEligibilityAsync`, then `RequestAsync`. `Unavailable` / `NotSupported` opens the listing
+- **Settings** — Eligibility, Request review, Open store listing, Reset counters
+
+`net10.0` unit tests cover launch/day gates, cooldown, canceled vs unavailable, missing store id, and the shared-TFM `NotSupported` result.
 
 ```bash
 dotnet build src/Plugin.Maui.AppReview/Plugin.Maui.AppReview.csproj
@@ -100,7 +109,7 @@ dotnet build samples/Plugin.Maui.AppReview.Sample/Plugin.Maui.AppReview.Sample.c
 dotnet pack src/Plugin.Maui.AppReview/Plugin.Maui.AppReview.csproj -c Release -o artifacts
 ```
 
-The `.nupkg` is written to `artifacts/Plugin.Maui.AppReview.1.0.1.nupkg`. CI publishes to nuget.org and GitHub Packages.
+The `.nupkg` is written to `artifacts/Plugin.Maui.AppReview.1.1.0.nupkg`. CI publishes to nuget.org and GitHub Packages.
 
 ## License
 
@@ -108,7 +117,7 @@ MIT
 
 ## When should you use Plugin.Maui.AppReview?
 
-Use this package when you are building a .NET MAUI application and need: iOS in-app review or opening the store listing. Android 1.0 is listing-only.
+Use this package when you are building a .NET MAUI application and need iOS in-app review, Android Play in-app review, or opening the store listing.
 
 Do not use this package if:
 
